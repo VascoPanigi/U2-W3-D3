@@ -53,12 +53,19 @@ const fetchBooks = () => {
                         <div class="card-body">
                         <h5 class="card-title">${book.title}</h5>
                         <p>${book.price} $ </p>
+                        <button type="button" class="btn btn-warning discard-btn">Discard</button>
                         </div>`;
+
+        const discardButton = card.querySelector(".discard-btn");
+        discardButton.addEventListener("click", () => {
+          row.removeChild(col);
+        });
 
         col.appendChild(card);
         row.appendChild(col);
       });
-    });
+    })
+    .catch((error) => console.log(error));
 };
 
 window.onload = () => {
