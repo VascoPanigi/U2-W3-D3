@@ -14,3 +14,53 @@
 // per aggiungere il libro al carrello. Il carrello dovrà persistere nello storage del
 // browser.
 // ●EXTRA: aggiungi vicino ad ogni libro del carrello un pulsante per rimuoverlo dal carrello
+
+const fetchBooks = () => {
+  fetch("https://striveschool-api.herokuapp.com/books")
+    .then((response) => {
+      console.log(response);
+      if (response.ok) {
+        return response.json();
+      } else {
+        if (response.status === 400) {
+          throw new Error("Bad Request");
+        }
+        if (response.status === 401) {
+          throw new Error("Unauthorized");
+        }
+        if (response.status === 403) {
+          throw new Error("Forbidden");
+        }
+        if (response.status === 404) {
+          throw new Error("Not Found");
+        }
+        if (response.status === 500) {
+          throw new Error("Server Error");
+        }
+        throw new Error("Generic Fetch Error");
+      }
+    })
+    .then((libraryData) => {
+      libraryData.forEach((book) => {
+        const row = document.getElementById("books-row");
+        const col = document.createElement("col");
+        col.classList.add("col");
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        card.innerHTML = `
+                        <img src=${book.img} class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <h5 class="card-title">${book.title}</h5>
+                        <p>${book.price} $ </p>
+                        </div>`;
+
+        col.appendChild(card);
+        row.appendChild(col);
+      });
+    });
+};
+
+window.onload = () => {
+  fetchBooks();
+};
