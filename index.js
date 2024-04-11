@@ -41,6 +41,8 @@ const fetchBooks = () => {
       }
     })
     .then((libraryData) => {
+      //dopo essere sicuri di avere i dati, ciclo e per ogni elemento dentro la mia API
+      //creo una card
       libraryData.forEach((book) => {
         const row = document.getElementById("books-row");
         const col = document.createElement("col");
@@ -53,14 +55,19 @@ const fetchBooks = () => {
                         <div class="card-body">
                         <h5 class="card-title">${book.title}</h5>
                         <p>${book.price} $ </p>
+                        <div class='d-flex justify-content-between'> 
                         <button type="button" class="btn btn-warning discard-btn">Discard</button>
+                        <button type="button" class="btn btn-primary add-to-cart-btn">Cart</button>
+                        </div>
                         </div>`;
 
+        //mi prendo la card e al click la rimuovo dallo schermo
         const discardButton = card.querySelector(".discard-btn");
         discardButton.addEventListener("click", () => {
           row.removeChild(col);
         });
 
+        //pusho le card nel documento
         col.appendChild(card);
         row.appendChild(col);
       });
